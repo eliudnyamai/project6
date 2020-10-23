@@ -1,4 +1,4 @@
-occupied= new Array();
+occupied = new Array();
 class Spot {
   constructor(x, y, Item) {
     this.x = x;
@@ -15,6 +15,28 @@ class Spot {
     return this.y;
   }
 }
+class Player {
+  constructor(turn, life, imgPath) {
+    this.turn = turn;
+    this.life = life;
+    this.imgPath = imgPath;
+  }
+  setTurn(t) {
+    this.turn = t;
+  }
+  getTurn() {
+    return this.turn;
+  }
+  setLife(l) {
+    this.life = l;
+  }
+  getLife() {
+    return this.life;
+  }
+  path() {
+    return this.imgPath;
+  }
+}
 class Obstacle {
   constructor(imgPath) {
     this.imgPath = imgPath;
@@ -24,29 +46,29 @@ class Obstacle {
   }
 }
 class Weapon {
-  constructor(damage,availability, ammunition, imgPath){
-    this.damage=damage;
-    this.availability=availability;
-    this.ammunition=ammunition;
-    this.imgPath=imgPath;
+  constructor(damage, availability, ammunition, imgPath) {
+    this.damage = damage;
+    this.availability = availability;
+    this.ammunition = ammunition;
+    this.imgPath = imgPath;
   }
   path() {
     return this.imgPath;
   }
-  getDamage(){
+  getDamage() {
     return this.damage;
   }
-  setAvailability(a){
-    this.availability=a;
+  setAvailability(a) {
+    this.availability = a;
   }
-  getAvailability(){
+  getAvailability() {
     return this.availability;
   }
-  getAmmunition(){
-     return this.ammunition;
+  getAmmunition() {
+    return this.ammunition;
   }
-  setAmmunition(a){
-    this.ammunition=a;
+  setAmmunition(a) {
+    this.ammunition = a;
   }
 }
 class Board {
@@ -65,12 +87,12 @@ class Board {
       }
     }
   }
-  placeItem(x,y,Item){
+  placeItem(x, y, Item) {
     this.boxes[x] = [];
     this.boxes[x][y] = new Spot(x, y, Item);
-     occupied.push([x,y]);
-    var left = this.boxes[x][y].getY()+414 +(this.boxes[x][y].getY()*54);
-    var top = this.boxes[x][y].getX() + 15 + (this.boxes[x][y].getX()*52);
+    occupied.push([x, y]);
+    var left = this.boxes[x][y].getY() + 414 + this.boxes[x][y].getY() * 54;
+    var top = this.boxes[x][y].getX() + 15 + this.boxes[x][y].getX() * 52;
     var path = this.boxes[x][y].getItem().path();
     document.getElementById("board").innerHTML +=
       " <div ><img  style='position:absolute; left:" +
@@ -80,46 +102,52 @@ class Board {
       "px' class='items' src='" +
       path +
       "'/></div>";
-      return occupied;
+    return occupied;
   }
 }
 function exists(arr, search) {
   for (let i = 0; i < arr.length; i++) {
-    if(JSON.stringify(search)==JSON.stringify(arr[i])){
+    if (JSON.stringify(search) == JSON.stringify(arr[i])) {
       return true;
-    } 
+    }
   }
   return false;
 }
 function randomPosition() {
-  x=Math.floor(Math.random() * 10); 
-  y=Math.floor(Math.random() * 10); 
-  while(exists(occupied,[x,y])){
-        x=Math.floor(Math.random() * 10); 
-        y=Math.floor(Math.random() * 10); 
-      }
-      position=new Array(x,y); 
-      return position;
+  x = Math.floor(Math.random() * 10);
+  y = Math.floor(Math.random() * 10);
+  while (exists(occupied, [x, y])) {
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+  }
+  position = new Array(x, y);
+  return position;
 }
 
 board = new Board();
-obstacle = new Obstacle("images/obstacle.png"); 
-gun=new Weapon(1,1,1,"images/gun.png");
+obstacle = new Obstacle("images/obstacle.png");
+gun = new Weapon(1, 1, 1, "images/gun.png");
 board.resetBoard();
-position= randomPosition();
-board.placeItem(position[0],position[1],gun);
-position= randomPosition();
-ak47=new Weapon(1,1,1,"images/ak47.png");
-board.placeItem(position[0],position[1],ak47);
-machinegun=new Weapon(1,1,1,"images/machinegun.png");
-position= randomPosition();
-board.placeItem(position[0],position[1],machinegun);
+position = randomPosition();
+board.placeItem(position[0], position[1], gun);
+position = randomPosition();
+ak47 = new Weapon(1, 1, 1, "images/ak47.png");
+board.placeItem(position[0], position[1], ak47);
+machinegun = new Weapon(1, 1, 1, "images/machinegun.png");
+position = randomPosition();
+board.placeItem(position[0], position[1], machinegun);
+playerA = new Player(5, 0, "images/player.png");
+position = randomPosition();
+board.placeItem(position[0], position[1], playerA);
+playerB = new Player(5, 0, "images/soldier.png");
+position = randomPosition();
+board.placeItem(position[0], position[1], playerB);
 
-for (let index = 0; index <20; index++) {
-  position= randomPosition();
-  board.placeItem(position[0],position[1],obstacle);
+for (let index = 0; index < 20; index++) {
+  position = randomPosition();
+  board.placeItem(position[0], position[1], obstacle);
 }
 console.table(occupied);
 console.log(occupied[0]);
 
-console.log(exists(occupied,[3,4]));
+console.log(exists(occupied, [3, 4]));
