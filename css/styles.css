@@ -1,7 +1,70 @@
+body {
+  font-family: "Lato", sans-serif;
+}
+#main{
+  display: flex;
+}
+#player1info  {
+  background-color: rgb(81, 145, 81);
+  width: 21%;
+  margin: 2%;
+  font-weight: bold;
+  font-size: 24px;
+}
+#player2info{
+  background-color: rgb(81, 145, 81);
+  width: 21%;
+  margin: 2%;
+  font-weight: bold;
+  font-size: 24px;
+ 
+}
+#fight-message{
+  display: none;
+  background-color: red;
+  color: white;
+  width: 20%;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  height: 25px;
+  font-weight: bold;
+  text-align: center;
+  padding: 2%;
+  font-size: 24px;
+  border-radius: 3%;
+}
+.fight-button{
+  width: 30%;
+  border: 2px solid white;
+   border-radius: 5%;
+   padding: 2%;
+}
+
+.fight-button-attack{
+ background-color: red;
+ color: white;
+ 
+}
+.fight-button-defend{
+  background-color: green;
+  color: white;
+}
+.centered{
+  text-align: center;
+}
+.player-img{
+  width: 100px;
+  height: 100px;
+}
+.weapon{
+  width: 50px;
+  height: 50px;
+}
 #board {
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  flex-grow: 4;
   border: 4px solid rgb(24, 124, 24);
   background-color: green;
   margin: auto;
@@ -29,6 +92,10 @@
   background-image: url("/images/mwiko.png");
   background-size: 100% 100%;
 }
+.spoon {
+  background-image: url("/images/spoon.png");
+  background-size: 100% 100%;
+}
 .player1 {
   background-image: url("/images/player.png");
   background-size: 100% 100%;
@@ -45,7 +112,21 @@
   background-color: white;
   border: 2px solid red;
 }
+.player1moves:hover{
+  background-color: rgb(241, 193, 193);
+  border: 2px solid rgb(236, 121, 121);
+}
 .player2moves{
   background-color: white;
   border: 2px solid black;
+}
+.player2moves:hover{
+  background-color: rgb(204, 157, 157);
+  border: 2px solid rgb(105, 83, 83);
+}
+#player2fightbuttons{
+  display: none;
+}
+#player1fightbuttons{
+  display: none;
 }

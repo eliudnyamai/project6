@@ -7,7 +7,41 @@
     <title>Game</title>
   </head>
   <body>
+  <div id="main">
+    <div class="centered" id="player1info">
+      <img class="player-img" src="images/player.png" alt="">
+      <h3 class="centered">Player 1</h3>
+      <p id="turn1"></p>
+      <p id="weapon1"></p>
+      <p id="life1"></p>
+      <div id="player1fightbuttons" >
+        <button class="fight-button-attack fight-button">Attack</button>
+        <button class="fight-button-defend fight-button">Defend</button>
+      </div>
+      <div id="player1progress">
+
+      </div>
+    </div>
     <div id="board"></div>
+    <div class="centered" id="player2info">
+      <img class="player-img" src="images/soldier.png" alt="">
+       <h3 >Player 2</h3>
+         <p id="turn2"></p>
+         <p id="weapon2"></p>
+         <p id="life2"></p>
+         <div id="player2fightbuttons" >
+           <button class="fight-button-attack fight-button">Attack</button>
+           <button class="fight-button-defend fight-button">Defend</button>
+         </div>
+         <div id="player2progress">
+
+         </div>
+    </div>
+  </div>
+    <div id="board">
+ 
+    </div>
+    <div id="fight-message">Fight!</div>
     <script src="https://code.jquery.com/jquery-3.5.1.js" 
     integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="js/script.js"></script>
