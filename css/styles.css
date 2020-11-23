@@ -1,6 +1,10 @@
 body {
   font-family: "Lato", sans-serif;
 }
+#players{
+  display: flex;
+ margin-left:30%;
+}
 #start-screen{
   background-color: rgb(186, 243, 186);
   width: 70%;
@@ -107,7 +111,10 @@ body {
    border-radius: 5%;
    padding: 2%;
 }
-
+.fight-button:hover{
+  background-color: white;
+  color: red;
+}
 .fight-button-attack{
  background-color: red;
  color: white;
@@ -144,35 +151,35 @@ body {
   height: 55px; 
 }
 .gun {
-  background-image: url("/images/gun.png");
+  background-image: url("../images/gun.png");
   background-size: 100% 100%;
 }
 .machinegun {
-  background-image: url("/images/machinegun.png");
+  background-image: url("../images/machinegun.png");
   background-size: 100% 100%;
 }
 .ak47 {
-  background-image: url("/images/ak47.png");
+  background-image: url("../images/ak47.png");
   background-size: 100% 100%;
 }
 .mwiko {
-  background-image: url("/images/mwiko.png");
+  background-image: url("../images/mwiko.png");
   background-size: 100% 100%;
 }
 .spoon {
-  background-image: url("/images/spoon.png");
+  background-image: url("../images/spoon.png");
   background-size: 100% 100%;
 }
 .player1 {
-  background-image: url("/images/player.png");
+  background-image: url("../images/player.png");
   background-size: 100% 100%;
 }
 .obstacle {
-  background-image: url("/images/obstacle.png");
+  background-image: url("../images/obstacle.png");
   background-size: 100% 100%;
 }
 .player2 {
-  background-image: url("/images/soldier.png");
+  background-image: url("../images/soldier.png");
   background-size: 100% 100%;
 }
 .player1moves{

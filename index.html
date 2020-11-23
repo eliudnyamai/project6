@@ -9,11 +9,27 @@
   <body>
     <div id="start-screen">
       <h3 id="welcome-heading" >Welcome!!</h3>
+      <div  id="players">
+       <figure>
+        <img class="player-img" src="images/player.png" alt="">
+        <figcaption>Player 1</figcaption>
+       </figure>
+          <h4 >VS</h4>
+          <figure>
+            <img class="player-img" src="images/soldier.png" alt="">
+            <figcaption>Player 2</figcaption>
+          </figure>
+         
+
+      </div>
       <button class="start-button" id="start">Start Game</button>
       <button class="start-button" id="instructions">Read Instructions</button>
     </div>
     <div id="end-screen">
       <h3 id="end-message" >Game over</h3>
+      <div id="winner">
+        
+      </div>
       <button class="start-button" id="start">New Game</button>
       <button class="start-button" id="end">End game</button>
     </div>
@@ -85,12 +101,24 @@
       <div id="fight-message">Fight!</div>
     
     </div>
-    <div id="end-game" class="centered">Thank you for playing my game. Have a good day!!!</div>
+    <div id="end-game" class="centered">Thank you for playing my game. Have a good day!!! <br>
+     Closing this tab....
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
       crossorigin="anonymous"
     ></script>
-    <script src="js/script.js"></script>
+    <!-- <script src="js/script.js"></script> -->
+    <script src="js/functions.js"></script>
+    <script src="js/spot.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/weapon.js"></script>
+    <script src="js/obstacle.js"></script>
+    <script src="js/empty.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+ 
   </body>
 </html>

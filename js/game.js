@@ -1,306 +1,3 @@
-occupied = new Array();
-function moveAllowed(x, y, previousX, previousY) {
-  var distanceX = Math.abs(x - previousX);
-  var distanceY = Math.abs(y - previousY);
-  if (
-    (distanceY == 0 && distanceX <= 3) ||
-    (distanceX == 0 && distanceY <= 3)
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function pathClear(x, y, previousX, previousY) {
-  var distanceX = Math.abs(x - previousX);
-  var distanceY = Math.abs(y - previousY);
-  y = y.toString();
-  x = x.toString();
-  if (distanceY == 0) {
-    if (x > previousX) {
-      increment = 1;
-    } else {
-      increment = -1;
-    }
-    for (let i = distanceX; i > 0; i--) {
-      prevX = previousX + increment * i;
-      var obs = document
-        .getElementById(prevX + y)
-        .classList.contains("obstacle");
-      var p1 = document.getElementById(prevX + y).classList.contains("player1");
-      var p2 = document.getElementById(prevX + y).classList.contains("player2");
-      if (obs || p1 || p2) {
-        return false;
-      }
-    }
-    return true;
-  } else {
-    if (y > previousY) {
-      increment = 1;
-    } else {
-      increment = -1;
-    }
-    for (let i = distanceY; i > 0; i--) {
-      prevY = previousY + increment * i;
-      i = i.toString();
-      var obs = document
-        .getElementById(x + prevY)
-        .classList.contains("obstacle");
-      var p1 = document.getElementById(x + prevY).classList.contains("player1");
-      var p2 = document.getElementById(x + prevY).classList.contains("player2");
-      if (obs || p1 || p2) {
-        return false;
-      }
-    }
-    return true;
-  }
-}
-function pickWeapon(x, y, previousX, previousY, player) {
-  var distanceX = Math.abs(x - previousX);
-  var distanceY = Math.abs(y - previousY);
-  y = y.toString();
-  x = x.toString();
-  if (distanceY == 0) {
-    if (x > previousX) {
-      increment = 1;
-    } else {
-      increment = -1;
-    }
-    for (let i = distanceX; i > 0; i--) {
-      prevX = previousX + increment * i;
-      var gun = document.getElementById(prevX + y).classList.contains("gun");
-      var ak47 = document.getElementById(prevX + y).classList.contains("ak47");
-      var machinegun = document
-        .getElementById(prevX + y)
-        .classList.contains("machinegun");
-      var mwiko = document
-        .getElementById(prevX + y)
-        .classList.contains("mwiko");
-      var spoon = document
-        .getElementById(prevX + y)
-        .classList.contains("spoon");
-      if (mwiko) {
-        document.getElementById(prevX + y).classList.add(player.getWeapon());
-        player.setWeapon("mwiko");
-        document.getElementById(prevX + y).classList.remove("mwiko");
-      }
-      if (spoon) {
-        document.getElementById(prevX + y).classList.add(player.getWeapon());
-        player.setWeapon("spoon");
-        document.getElementById(prevX + y).classList.remove("spoon");
-      }
-      if (ak47) {
-        document.getElementById(prevX + y).classList.add(player.getWeapon());
-        player.setWeapon("ak47");
-        document.getElementById(prevX + y).classList.remove("ak47");
-      }
-      if (gun) {
-        document.getElementById(prevX + y).classList.add(player.getWeapon());
-        player.setWeapon("gun");
-        document.getElementById(prevX + y).classList.remove("gun");
-      }
-      if (machinegun) {
-        document.getElementById(prevX + y).classList.add(player.getWeapon());
-        player.setWeapon("machinegun");
-        document.getElementById(prevX + y).classList.remove("machinegun");
-      }
-    }
-  } else {
-    if (y > previousY) {
-      increment = 1;
-    } else {
-      increment = -1;
-    }
-    for (let i = distanceY; i > 0; i--) {
-      prevY = previousY + increment * i;
-      var gun = document.getElementById(x + prevY).classList.contains("gun");
-      var ak47 = document.getElementById(x + prevY).classList.contains("ak47");
-      var machinegun = document
-        .getElementById(x + prevY)
-        .classList.contains("machinegun");
-      var mwiko = document
-        .getElementById(x + prevY)
-        .classList.contains("mwiko");
-      var spoon = document
-        .getElementById(x + prevY)
-        .classList.contains("spoon");
-      if (mwiko) {
-        document.getElementById(x + prevY).classList.add(player.getWeapon());
-        player.setWeapon("mwiko");
-        document.getElementById(x + prevY).classList.remove("mwiko");
-      }
-      if (spoon) {
-        document.getElementById(x + prevY).classList.add(player.getWeapon());
-        player.setWeapon("spoon");
-        document.getElementById(x + prevY).classList.remove("spoon");
-      }
-      if (ak47) {
-        document.getElementById(x + prevY).classList.add(player.getWeapon());
-        player.setWeapon("ak47");
-        document.getElementById(x + prevY).classList.remove("ak47");
-      }
-      if (gun) {
-        document.getElementById(x + prevY).classList.add(player.getWeapon());
-        player.setWeapon("gun");
-        document.getElementById(x + prevY).classList.remove("gun");
-      }
-      if (machinegun) {
-        document.getElementById(x + prevY).classList.add(player.getWeapon());
-        player.setWeapon("machinegun");
-        document.getElementById(x + prevY).classList.remove("machinegun");
-      }
-    }
-  }
-}
-function exists(arr, search) {
-  for (let i = 0; i < arr.length; i++) {
-    if (JSON.stringify(search) == JSON.stringify(arr[i])) {
-      return true;
-    }
-  }
-  return false;
-}
-function randomPosition() {
-  x = Math.floor(Math.random() * 10);
-  y = Math.floor(Math.random() * 10);
-  while (exists(occupied, [x, y])) {
-    x = Math.floor(Math.random() * 10);
-    y = Math.floor(Math.random() * 10);
-  }
-  position = new Array(x, y);
-  return position;
-}
-class Spot {
-  constructor(x, y, Item) {
-    this.x = x;
-    this.y = y;
-    this.Item = Item;
-  }
-  getItem() {
-    return this.Item;
-  }
-  setItem(item) {
-    this.Item = item;
-  }
-  getX() {
-    return this.x;
-  }
-  getY() {
-    return this.y;
-  }
-}
-class Player {
-  constructor(x, y, turn, life, weapon, name, defence) {
-    this.turn = turn;
-    this.life = life;
-    this.x = x;
-    this.y = y;
-    this.weapon = weapon;
-    this.name = name;
-    this.defence = defence;
-  }
-
-  getName() {
-    return this.name;
-  }
-  getDefence() {
-    return this.defence;
-  }
-  setDefence(d) {
-    this.defence = d;
-  }
-  getWeapon() {
-    return this.weapon;
-  }
-  setWeapon(w) {
-    this.weapon = w;
-  }
-  getX() {
-    return this.x;
-  }
-  setX(x) {
-    this.x = x;
-  }
-  getY() {
-    return this.y;
-  }
-  setY(y) {
-    this.y = y;
-  }
-  setTurn(t) {
-    this.turn = t;
-  }
-  getTurn() {
-    return this.turn;
-  }
-  setLife(l) {
-    this.life = l;
-  }
-  getLife() {
-    return this.life;
-  }
-}
-class Obstacle {
-  constructor(name) {
-    this.name = name;
-  }
-  getName() {
-    return this.name;
-  }
-}
-
-class Weapon {
-  constructor(damage, availability, ammunition, name) {
-    this.name = name;
-    this.damage = damage;
-    this.availability = availability;
-    this.ammunition = ammunition;
-  }
-  getName() {
-    return this.name;
-  }
-
-  getDamage() {
-    return this.damage;
-  }
-}
-class Empty {
-  constructor(name) {
-    this.name = name;
-  }
-  getName() {
-    return this.name;
-  }
-}
-class Board {
-  constructor(boxes = []) {
-    this.boxes = boxes;
-  }
-  resetBoard() {
-    for (var i = 0; i < 10; i++) {
-      this.boxes[i] = [];
-      for (var j = 0; j < 10; j++) {
-        if (typeof this.boxes[i][j] != "object") {
-          this.boxes[i][j] = new Spot(i, j, new Empty("cell"));
-          document.getElementById("board").innerHTML +=
-            " <div id='" + i + j + "' class='cell'></div>";
-        }
-      }
-    }
-  }
-  placeItem(x, y, Item) {
-    this.boxes[x][y] = new Spot(x, y, Item);
-    occupied.push([x, y]);
-    x = x.toString();
-    y = y.toString();
-    document.getElementById(x + y).classList.add(Item.getName());
-  }
-  getBoxes() {
-    return this.boxes;
-  }
-}
-
 class Game {
   constructor() {
     this.board = new Board();
@@ -608,10 +305,12 @@ class Game {
                 "none";
               document.getElementById("player2fightbuttons").style.display =
                 "none";
-           
-              document.getElementById('end-screen').style.display="block"
-              document.getElementById('end-message').innerText="Game over-player 1 wins"
-              document.getElementById('winner').innerHTML="<img class='player-img' src='./images/player.png'>"
+
+              document.getElementById("end-screen").style.display = "block";
+              document.getElementById("end-message").innerText =
+                "Game over-player 1 wins";
+              document.getElementById("winner").innerHTML =
+                "<img class='player-img' src='./images/player.png'>";
             } else {
               document.getElementById("player1fightbuttons").style.display =
                 "none";
@@ -631,9 +330,11 @@ class Game {
                 "none";
               document.getElementById("player2fightbuttons").style.display =
                 "none";
-              document.getElementById('end-screen').style.display="block"
-              document.getElementById('end-message').innerText="Game over player 1 wins"
-              document.getElementById('winner').innerHTML="<img class='player-img' src='./images/player.png'>"
+              document.getElementById("end-screen").style.display = "block";
+              document.getElementById("end-message").innerText =
+                "Game over player 1 wins";
+              document.getElementById("winner").innerHTML =
+                "<img class='player-img' src='./images/player.png'>";
             } else {
               document.getElementById("player1fightbuttons").style.display =
                 "none";
@@ -665,9 +366,11 @@ class Game {
                 "none";
               document.getElementById("player2fightbuttons").style.display =
                 "none";
-              document.getElementById('end-screen').style.display="block"
-              document.getElementById('end-message').innerText="Game over player 2 wins"
-              document.getElementById('winner').innerHTML="<img class='player-img' src='./images/soldier.png'>"
+              document.getElementById("end-screen").style.display = "block";
+              document.getElementById("end-message").innerText =
+                "Game over player 2 wins";
+              document.getElementById("winner").innerHTML =
+                "<img class='player-img' src='./images/soldier.png'>";
             } else {
               document.getElementById("player1fightbuttons").style.display =
                 "block";
@@ -687,9 +390,11 @@ class Game {
                 "none";
               document.getElementById("player2fightbuttons").style.display =
                 "none";
-              document.getElementById('end-screen').style.display="block"
-              document.getElementById('end-message').innerText="Game over player 2 wins"
-              document.getElementById('winner').innerHTML="<img class='player-img' src='./images/soldier.png'>"
+              document.getElementById("end-screen").style.display = "block";
+              document.getElementById("end-message").innerText =
+                "Game over player 2 wins";
+              document.getElementById("winner").innerHTML =
+                "<img class='player-img' src='./images/soldier.png'>";
             } else {
               document.getElementById("player1fightbuttons").style.display =
                 "block";
@@ -707,53 +412,8 @@ class Game {
           document.getElementById("player2fightbuttons").style.display = "none";
           this.playerA.setTurn(1);
           this.playerB.setTurn(0);
-          
         }
       }
     }
   }
 }
-
-$(document).on("click", "#start", function () {
-document.getElementById('main').style.display="flex";
-document.getElementById('board').innerHTML="";
-document.getElementById('start-screen').style.display="none";
-document.getElementById('end-screen').style.display="none";
-game = new Game();
-game.initializeGame();
-game.highlightMoves();
-game.displayTurns();
-game.displayFightMessage();
-game.displayWeapon();
-game.displayLife();
-});
-$(document).on("click", "#instructions", function () {
-  document.getElementById('instructions-modal').style.display="block";
-  document.getElementById('start-screen').style.display="none";
-});
-$(document).on("click", "#end", function () {
-  document.getElementById('end-screen').style.display="none";
-  document.getElementById('main').style.display="none";
-  document.getElementById('end-game').style.display="block";
-  setTimeout(function () {
-    //window.close()
-  }, 5000);
-});
-$(document).on("click", "#close-instructions", function () {
-  document.getElementById('instructions-modal').style.display="none";
-  document.getElementById('start-screen').style.display="block";
-});
-$(document).on("click", ".cell", function () {
-  game.highlightMoves();
-  let id = this.id;
-  position = id.toString().split("");
-  game.movePlayer(position[0], position[1]);
-});
-$(document).on("click", ".fight-button", function () {
-  if (this.classList.contains("fight-button-attack")) {
-    var fightoption = "attack";
-  } else {
-    var fightoption = "defend";
-  }
-  game.fight(fightoption);
-});
