@@ -7,44 +7,90 @@
     <title>Game</title>
   </head>
   <body>
-  <div id="main">
-    <div class="centered" id="player1info">
-      <img class="player-img" src="images/player.png" alt="">
-      <h3 class="centered">Player 1</h3>
-      <p id="turn1"></p>
-      <p id="weapon1"></p>
-      <p id="life1"></p>
-      <div id="player1fightbuttons" >
-        <button class="fight-button-attack fight-button">Attack</button>
-        <button class="fight-button-defend fight-button">Defend</button>
+    <div id="start-screen">
+      <h3 id="welcome-heading" >Welcome!!</h3>
+      <button class="start-button" id="start">Start Game</button>
+      <button class="start-button" id="instructions">Read Instructions</button>
+    </div>
+    <div id="end-screen">
+      <h3 id="end-message" >Game over</h3>
+      <button class="start-button" id="start">New Game</button>
+      <button class="start-button" id="end">End game</button>
+    </div>
+    <div id="instructions-modal">
+      <div style="margin: auto; width: 70%;">
+        <h2 class="centered" >How To Play</h2>
+        <h3 class="centered">Movement</h3>
+        <ul>
+          <li>Movement takes place in turns.</li>
+          <li>
+            For each turn, player can move from 1 to 3 boxes (horizontally or
+            vertically) before ending their turn.
+          </li>
+          <li>
+            If player passes over a box containing a weapon, he leave his current
+            weapon on site and replace it with the new one.
+          </li>
+          <li>
+            If players cross over adjacent squares (horizontally or vertically), a
+            battle begins.
+          </li>
+        </ul>
+        <h3 class="centered">Fight</h3>
+        <ul>
+          <li>Each player attacks in turn.</li>
+          <li>Damage depends on the player's weapon.</li>
+          <li>Player can choose to attack or defend against the next shot.</li>
+          <li>
+            If the player chooses to defend themselves, they sustain 50% less
+            damage than normal.
+          </li>
+          <li>
+            As soon as life points of a player (initially 100) falls to 0, game is
+            over.
+          </li>
+        </ul>
+        <div class="centered">
+          <button class="start-button" id="close-instructions">Close</button>
+        </div>
       </div>
-      <div id="player1progress">
-
+      
+    </div>
+    <div id="main">
+      <div class="centered" id="player1info">
+        <img class="player-img" src="images/player.png" alt="" />
+        <h3 class="centered">Player 1</h3>
+        <p id="turn1"></p>
+        <p id="weapon1"></p>
+        <p id="life1"></p>
+        <div id="player1fightbuttons">
+          <button class="fight-button-attack fight-button">Attack</button>
+          <button class="fight-button-defend fight-button">Defend</button>
+        </div>
+        <div id="player1progress"></div>
       </div>
+      <div id="board"></div>
+      <div class="centered" id="player2info">
+        <img class="player-img" src="images/soldier.png" alt="" />
+        <h3>Player 2</h3>
+        <p id="turn2"></p>
+        <p id="weapon2"></p>
+        <p id="life2"></p>
+        <div id="player2fightbuttons">
+          <button class="fight-button-attack fight-button">Attack</button>
+          <button class="fight-button-defend fight-button">Defend</button>
+        </div>
+        <div id="player2progress"></div>
+      </div>
+      <div id="fight-message">Fight!</div>
+    
     </div>
-    <div id="board"></div>
-    <div class="centered" id="player2info">
-      <img class="player-img" src="images/soldier.png" alt="">
-       <h3 >Player 2</h3>
-         <p id="turn2"></p>
-         <p id="weapon2"></p>
-         <p id="life2"></p>
-         <div id="player2fightbuttons" >
-           <button class="fight-button-attack fight-button">Attack</button>
-           <button class="fight-button-defend fight-button">Defend</button>
-         </div>
-         <div id="player2progress">
-
-         </div>
-    </div>
-  </div>
-    <div id="board">
- 
-    </div>
-    <div id="fight-message">Fight!</div>
-    <script src="https://code.jquery.com/jquery-3.5.1.js" 
-    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <div id="end-game" class="centered">Thank you for playing my game. Have a good day!!!</div>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
     <script src="js/script.js"></script>
-
   </body>
 </html>

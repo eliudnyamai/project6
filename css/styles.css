@@ -1,8 +1,75 @@
 body {
   font-family: "Lato", sans-serif;
 }
+#start-screen{
+  background-color: rgb(186, 243, 186);
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  padding: 3%;
+  border-radius:1% ;
+}
+#end-game{
+  display: none;
+}
+#end-screen{
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 12%;
+  background-color: rgb(186, 243, 186);
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  padding: 3%;
+  border-radius:1% ;
+}
+.start-button{
+  padding: 2%;
+  width: 30%;
+  border-radius: 5%;
+  font-size: 20px;
+}
+.start-button:hover{
+  background-color: red;
+  color: white;
+}
+#start{
+  background-color: rgb(46, 122, 46);
+  border: 2px solid white;
+  color: white;
+}
+#start:hover{
+  color:red;
+}
+#instructions{
+  border: 2px solid red;
+}
+#instructions-modal{
+  display: none;
+  background-color: rgb(186, 243, 186);
+  width: 70%;
+  margin: auto;
+  padding: 2%;
+  border-radius:1% ;
+}
+#close-instructions{
+  background-color: rgb(201, 32, 32);
+  border: 2px solid white;
+  color: white;
+}
+#end{
+  background-color: rgb(201, 32, 32);
+  border: 2px solid white;
+  color: white;
+}
+#end:hover{
+  background-color: white;
+  border: 2px solid rgb(201, 32, 32);
+  color: red; 
+}
 #main{
-  display: flex;
+  display: none;
 }
 #player1info  {
   background-color: rgb(81, 145, 81);
