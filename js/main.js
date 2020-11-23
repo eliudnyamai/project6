@@ -20,7 +20,7 @@ $(document).on("click", "#end", function () {
   document.getElementById("main").style.display = "none";
   document.getElementById("end-game").style.display = "block";
   setTimeout(function () {
-    //window.close()
+    window.close()
   }, 5000);
 });
 $(document).on("click", "#close-instructions", function () {
