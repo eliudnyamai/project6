@@ -2,11 +2,11 @@ class Game {
   constructor() {
     this.board = new Board();
     this.obstacle = new Obstacle("obstacle");
-    this.mwiko = new Weapon(20, 1, 1, "mwiko");
-    this.spoon = new Weapon(20, 1, 1, "spoon");
-    this.gun = new Weapon(30, 1, 1, "gun");
-    this.ak47 = new Weapon(40, 1, 1, "ak47");
-    this.machinegun = new Weapon(50, 1, 1, "machinegun");
+    this.mwiko = new Weapon(10, 1, 1, "mwiko");
+    this.spoon = new Weapon(10, 1, 1, "spoon");
+    this.gun = new Weapon(20, 1, 1, "gun");
+    this.ak47 = new Weapon(30, 1, 1, "ak47");
+    this.machinegun = new Weapon(40, 1, 1, "machinegun");
     this.playerA = new Player(0, 0, 1, 100, "spoon", "player1", 0);
     this.playerB = new Player(0, 0, 1, 100, "mwiko", "player2", 0);
   }
@@ -32,6 +32,7 @@ class Game {
     }
   }
   disableMovement() {
+    //makes all cells unclickable and unhighlights the highlighted
     $(".cell").prop("disabled", true);
     $("." + this.playerA.getName() + "moves").removeClass(
       this.playerA.getName() + "moves"
@@ -41,26 +42,29 @@ class Game {
     );
   }
   checkfight() {
+    //check if players are adjacent either along the x or y axis
     var playerAX = this.playerA.getX();
     var playerAY = this.playerA.getY();
     var playerBX = this.playerB.getX();
     var playerBY = this.playerB.getY();
     if (playerAX == playerBX && Math.abs(playerBY - playerAY) == 1) {
+      //Players are on the same x axix
       if (this.playerA.getTurn() == 1) {
         document.getElementById("player1fightbuttons").style.display = "block";
       } else {
         document.getElementById("player2fightbuttons").style.display = "block";
       }
-      this.disableMovement();
+      this.disableMovement(); // if there is adjacency disable movement
       return true;
     }
     if (playerAY == playerBY && Math.abs(playerBX - playerAX) == 1) {
+      ////Players are on the same Y axix
       if (this.playerA.getTurn() == 1) {
         document.getElementById("player1fightbuttons").style.display = "block";
       } else {
         document.getElementById("player2fightbuttons").style.display = "block";
       }
-      this.disableMovement();
+      this.disableMovement(); // if there is adjacency disable movement
       return true;
     }
     return false;
@@ -86,9 +90,11 @@ class Game {
     if (this.playerA.getTurn() == 1) {
       document.getElementById("turn1").innerHTML = "Player 1 turn";
       document.getElementById("turn2").innerHTML = "";
+      $("."+this.playerA.getName()).prop("disabled", true);
     } else {
       document.getElementById("turn2").innerHTML = "Player 2 turn";
       document.getElementById("turn1").innerHTML = "";
+      $("."+this.playerB.getName()).prop("disabled", true);//players cant click themselves so disable the cell they are in
     }
   }
   displayLife() {
@@ -115,14 +121,15 @@ class Game {
     }
   }
   displayWeapon() {
-    document.getElementById("weapon2").innerHTML =
+    // shows each players currently owned weapon
+    document.getElementById("weapon2").innerHTML = //for player 2
       "Weapon: " +
       this.playerB.getWeapon() +
       "<br><img class='weapon'  src='./images/" +
       this.playerB.getWeapon() +
       ".png'><br>Weapon Damage: " +
       this.WeaponDamage(this.playerB.getWeapon());
-    document.getElementById("weapon1").innerHTML =
+    document.getElementById("weapon1").innerHTML = //for player 1
       "Weapon: " +
       this.playerA.getWeapon() +
       "<br><img class='weapon' src='./images/" +
@@ -132,6 +139,8 @@ class Game {
   }
 
   highlightMoves() {
+    //highlighs the current valid moves according to player's turn
+    //py means position Y
     var player;
     if (this.playerA.getTurn() == 1) {
       player = this.playerA;
@@ -141,93 +150,39 @@ class Game {
     var x = player.getX();
     var y = player.getY();
     var py = y.toString();
-    for (let i = 1; i < 4; i++) {
-      var positionx = x + i;
-      if (positionx < 10) {
-        var obs = document
-          .getElementById(positionx + py)
-          .classList.contains("obstacle");
-        var p1 = document
-          .getElementById(positionx + py)
-          .classList.contains("player1");
-        var p2 = document
-          .getElementById(positionx + py)
-          .classList.contains("player2");
+    var i = 1;
+    xAxisMoves(x, py, i, player); //right moves
+    var i = -1;
+    xAxisMoves(x, py, i, player); //left moves
+    var increment = 1;
+    yAxisMoves(x, y, increment, player); //downward moves
+    var increment = -1;
+    yAxisMoves(x, y, increment, player); //upward moves
+  }
+  move(x, y, previousX, previousY, player, nonActivePlayer) {
+    if (pathClear(x, y, previousX, previousY)) {
+      if (moveAllowed(x, y, previousX, previousY) && !this.checkfight()) {
+        pickWeapon(x, y, previousX, previousY, player);
+        previousY = previousY.toString();
+        previousX = previousX.toString();
+        document
+          .getElementById(previousX + previousY)
+          .classList.remove(player.getName());
+        this.board.placeItem(parseInt(x, 10), parseInt(y, 10), player);
+        player.setX(parseInt(x, 10));
+        player.setY(parseInt(y, 10));
+        player.setTurn(0);
+        nonActivePlayer.setTurn(1);
 
-        if (!obs && !p1 && !p2) {
-          document
-            .getElementById(positionx + py)
-            .classList.add(player.getName() + "moves");
-        } else {
-          break;
-        }
-      }
-    }
-    for (let i = 1; i < 4; i++) {
-      var positionx = x - i;
-      if (positionx >= 0) {
-        var obs = document
-          .getElementById(positionx + py)
-          .classList.contains("obstacle");
-        var p1 = document
-          .getElementById(positionx + py)
-          .classList.contains("player1");
-        var p2 = document
-          .getElementById(positionx + py)
-          .classList.contains("player2");
-        if (!obs && !p1 && !p2) {
-          document
-            .getElementById(positionx + py)
-            .classList.add(player.getName() + "moves");
-        } else {
-          break;
-        }
-      }
-    }
-    for (let i = 1; i < 4; i++) {
-      var positiony = y - i;
-      x = x.toString();
-      positiony = positiony.toString();
-      if (positiony >= 0) {
-        var obs = document
-          .getElementById(x + positiony)
-          .classList.contains("obstacle");
-        var p1 = document
-          .getElementById(x + positiony)
-          .classList.contains("player1");
-        var p2 = document
-          .getElementById(x + positiony)
-          .classList.contains("player2");
-        if (!obs && !p1 && !p2) {
-          document
-            .getElementById(x + positiony)
-            .classList.add(player.getName() + "moves");
-        } else {
-          break;
-        }
-      }
-    }
-    for (let i = 1; i < 4; i++) {
-      var positiony = y + i;
-      x = x.toString();
-      positiony = positiony.toString();
-      if (positiony < 10) {
-        var obs = document
-          .getElementById(x + positiony)
-          .classList.contains("obstacle");
-        var p1 = document
-          .getElementById(x + positiony)
-          .classList.contains("player1");
-        var p2 = document
-          .getElementById(x + positiony)
-          .classList.contains("player2");
-        if (!obs && !p1 && !p2) {
-          document
-            .getElementById(x + positiony)
-            .classList.add(player.getName() + "moves");
-        } else {
-          break;
-        }
+        $("." + player.getName() + "moves").removeClass(
+          player.getName() + "moves"
+        );
+        //After a player moves out of a cell enable that cell for clicking
+        $("#"+previousX+previousY).prop("disabled", false);
+        this.highlightMoves();
+        this.displayTurns();
+        this.displayWeapon();
+        this.displayFightMessage();
       }
     }
   }
@@ -236,183 +191,89 @@ class Game {
       var player = this.playerA;
       var previousX = player.getX();
       var previousY = player.getY();
-      if (pathClear(x, y, previousX, previousY)) {
-        if (moveAllowed(x, y, previousX, previousY) && !this.checkfight()) {
-          pickWeapon(x, y, previousX, previousY, player);
-          previousY = previousY.toString();
-          previousX = previousX.toString();
-          document
-            .getElementById(previousX + previousY)
-            .classList.remove(player.getName());
-          this.board.placeItem(parseInt(x, 10), parseInt(y, 10), player);
-          player.setX(parseInt(x, 10));
-          player.setY(parseInt(y, 10));
-          this.playerA.setTurn(0);
-          this.playerB.setTurn(1);
-          $("." + this.playerA.getName() + "moves").removeClass(
-            this.playerA.getName() + "moves"
-          );
-          this.highlightMoves();
-          this.displayTurns();
-          this.displayWeapon();
-          this.displayFightMessage();
-        }
-      }
+      var nonActivePlayer = this.playerB;
+  
+      this.move(x, y, previousX, previousY, player, nonActivePlayer);
     } else if (this.playerB.getTurn() == 1) {
       var player = this.playerB;
       var previousX = player.getX();
       var previousY = player.getY();
-      if (pathClear(x, y, previousX, previousY)) {
-        if (moveAllowed(x, y, previousX, previousY) && !this.checkfight()) {
-          pickWeapon(x, y, previousX, previousY, player);
-          previousY = previousY.toString();
-          previousX = previousX.toString();
-          document
-            .getElementById(previousX + previousY)
-            .classList.remove("nonActiveplayer");
-          document
-            .getElementById(previousX + previousY)
-            .classList.remove(player.getName());
-          this.board.placeItem(parseInt(x, 10), parseInt(y, 10), player);
-          player.setX(parseInt(x, 10));
-          player.setY(parseInt(y, 10));
-          this.playerA.setTurn(1);
-          this.playerB.setTurn(0);
-          $("." + this.playerB.getName() + "moves").removeClass(
-            this.playerB.getName() + "moves"
-          );
-          this.highlightMoves();
+      var nonActivePlayer = this.playerA;
+      this.move(x, y, previousX, previousY, player, nonActivePlayer);
+    }
+  }
+  fightAction(player, nonActivePlayer, fightoption) {
+    if (fightoption == "attack") {
+      //player decided to attack
+      if (nonActivePlayer.getDefence() == 1) {
+        //the opponent had the defence on
+        var damage = this.WeaponDamage(player.getWeapon()) / 2;
+        nonActivePlayer.setLife(nonActivePlayer.getLife() - damage);
+        this.displayLife();
+        player.setDefence(0);
+        if (nonActivePlayer.getLife() <= 0) {
+          //someone has probably won
+          if (player.getName() == "player1") {
+            playerAwins();
+          } else {
+            playerBwins();
+          }
+        } else {
+          if (player.getName() == "player1") {
+            player2turn();
+          } else {
+            player1turn();
+          }
+          nonActivePlayer.setTurn(1);
+          player.setTurn(0);
           this.displayTurns();
-          this.displayWeapon();
-          this.displayFightMessage();
+        }
+      } else {
+        //The opponent had no defence
+        var damage = this.WeaponDamage(player.getWeapon());
+        nonActivePlayer.setLife(nonActivePlayer.getLife() - damage);
+        this.displayLife();
+        player.setDefence(0);
+        if (nonActivePlayer.getLife() <= 0) {
+          if (player.getName() == "player1") {
+            playerAwins();
+          } else {
+            playerBwins();
+          }
+        } else {
+          if (player.getName() == "player1") {
+            player2turn();
+          } else {
+            player1turn();
+          }
+          nonActivePlayer.setTurn(1);
+          player.setTurn(0);
+          this.displayTurns();
         }
       }
+    } else {
+      //player decided to defend against the next attack
+      player.setDefence(1);
+      if (player.getName() == "player1") {
+        player2turn();
+      } else {
+        player1turn();
+      }
+      nonActivePlayer.setTurn(1);
+      player.setTurn(0);
+      this.displayTurns();
     }
   }
   fight(fightoption) {
     if (this.checkfight()) {
-      var player;
       if (this.playerA.getTurn() == 1) {
-        player = this.playerA;
-        if (fightoption == "attack") {
-          if (this.playerB.getDefence() == 1) {
-            var damage = this.WeaponDamage(this.playerA.getWeapon()) / 2;
-            this.playerB.setLife(this.playerB.getLife() - damage);
-            this.displayLife();
-            this.playerA.setDefence(0);
-            if (this.playerB.getLife() <= 0) {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-
-              document.getElementById("end-screen").style.display = "block";
-              document.getElementById("end-message").innerText =
-                "Game over-player 1 wins";
-              document.getElementById("winner").innerHTML =
-                "<img class='player-img' src='./images/player.png'>";
-            } else {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "block";
-              this.playerB.setTurn(1);
-              this.playerA.setTurn(0);
-              this.displayTurns();
-            }
-          } else {
-            var damage = this.WeaponDamage(this.playerA.getWeapon());
-            this.playerB.setLife(this.playerB.getLife() - damage);
-            this.displayLife();
-            this.playerA.setDefence(0);
-            if (this.playerB.getLife() <= 0) {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-              document.getElementById("end-screen").style.display = "block";
-              document.getElementById("end-message").innerText =
-                "Game over player 1 wins";
-              document.getElementById("winner").innerHTML =
-                "<img class='player-img' src='./images/player.png'>";
-            } else {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "block";
-              this.playerB.setTurn(1);
-              this.playerA.setTurn(0);
-              this.displayTurns();
-            }
-          }
-        } else {
-          this.playerA.setDefence(1);
-          document.getElementById("player1fightbuttons").style.display = "none";
-          document.getElementById("player2fightbuttons").style.display =
-            "block";
-          this.playerB.setTurn(1);
-          this.playerA.setTurn(0);
-          this.displayTurns();
-        }
+        var player = this.playerA;
+        var nonActivePlayer = this.playerB;
+        this.fightAction(player, nonActivePlayer, fightoption);
       } else {
-        if (fightoption == "attack") {
-          if (this.playerA.getDefence() == 1) {
-            var damage = this.WeaponDamage(this.playerB.getWeapon()) / 2;
-            this.playerA.setLife(this.playerA.getLife() - damage);
-            this.displayLife();
-            this.playerB.setDefence(0);
-            if (this.playerA.getLife() <= 0) {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-              document.getElementById("end-screen").style.display = "block";
-              document.getElementById("end-message").innerText =
-                "Game over player 2 wins";
-              document.getElementById("winner").innerHTML =
-                "<img class='player-img' src='./images/soldier.png'>";
-            } else {
-              document.getElementById("player1fightbuttons").style.display =
-                "block";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-              this.playerA.setTurn(1);
-              this.playerB.setTurn(0);
-              this.displayTurns();
-            }
-          } else {
-            var damage = this.WeaponDamage(this.playerB.getWeapon());
-            this.playerA.setLife(this.playerA.getLife() - damage);
-            this.displayLife();
-            this.playerB.setDefence(0);
-            if (this.playerA.getLife() <= 0) {
-              document.getElementById("player1fightbuttons").style.display =
-                "none";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-              document.getElementById("end-screen").style.display = "block";
-              document.getElementById("end-message").innerText =
-                "Game over player 2 wins";
-              document.getElementById("winner").innerHTML =
-                "<img class='player-img' src='./images/soldier.png'>";
-            } else {
-              document.getElementById("player1fightbuttons").style.display =
-                "block";
-              document.getElementById("player2fightbuttons").style.display =
-                "none";
-              this.playerA.setTurn(1);
-              this.playerB.setTurn(0);
-              this.displayTurns();
-            }
-          }
-        } else {
-          this.playerB.setDefence(1);
-          document.getElementById("player1fightbuttons").style.display =
-            "block";
-          document.getElementById("player2fightbuttons").style.display = "none";
-          this.playerA.setTurn(1);
-          this.playerB.setTurn(0);
-        }
+        player = this.playerB;
+        nonActivePlayer = this.playerA;
+        this.fightAction(player, nonActivePlayer, fightoption);
       }
     }
   }

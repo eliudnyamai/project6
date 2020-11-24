@@ -19,9 +19,7 @@ $(document).on("click", "#end", function () {
   document.getElementById("end-screen").style.display = "none";
   document.getElementById("main").style.display = "none";
   document.getElementById("end-game").style.display = "block";
-  setTimeout(function () {
-    window.close()
-  }, 5000);
+ 
 });
 $(document).on("click", "#close-instructions", function () {
   document.getElementById("instructions-modal").style.display = "none";

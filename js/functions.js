@@ -170,3 +170,91 @@ function randomPosition() {
   position = new Array(x, y);
   return position;
 }
+
+function playerAwins() {
+  document.getElementById("player1fightbuttons").style.display =
+  "none";
+document.getElementById("player2fightbuttons").style.display =
+  "none";
+document.getElementById("end-screen").style.display = "block";
+document.getElementById("end-message").innerText =
+  "Game over-player 1 wins";
+document.getElementById("winner").innerHTML =
+  "<img class='player-img' src='./images/player.png'>";
+}
+function playerBwins() {
+  document.getElementById("player1fightbuttons").style.display =
+          "none";
+  document.getElementById("player2fightbuttons").style.display =
+          "none";
+  document.getElementById("end-screen").style.display = "block";
+  document.getElementById("end-message").innerText =
+          "Game-over player 2 wins";
+  document.getElementById("winner").innerHTML =
+        "<img class='player-img' src='./images/soldier.png'>";
+}
+function player2turn() {
+  document.getElementById("player1fightbuttons").style.display =
+              "none";
+  document.getElementById("player2fightbuttons").style.display =
+              "block"; 
+}
+function player1turn() {
+  document.getElementById("player1fightbuttons").style.display =
+  "block";
+  document.getElementById("player2fightbuttons").style.display =
+  "none";
+}
+
+function yAxisMoves(x,y,increment,player) {
+  for (let i = 1; i < 4; i++) {
+    //highlight all possible moves below the player
+    var positiony = y + i*increment;
+    x = x.toString();
+    positiony = positiony.toString();
+    if (positiony < 10&&positiony>=0) {
+      var obs = document
+        .getElementById(x + positiony)
+        .classList.contains("obstacle");
+      var p1 = document
+        .getElementById(x + positiony)
+        .classList.contains("player1");
+      var p2 = document
+        .getElementById(x + positiony)
+        .classList.contains("player2");
+      if (!obs && !p1 && !p2) {
+        document
+          .getElementById(x + positiony)
+          .classList.add(player.getName() + "moves");
+      } else {
+        break;
+      }
+    }
+  }
+}
+function xAxisMoves(x,py,increment,player) {
+  for (let i = 1; i < 4; i++) {
+    //highlight all possible moves right of the player
+    var positionx = x + i*increment;
+    if (positionx < 10&&positionx>=0) {
+      var obs = document
+        .getElementById(positionx + py)
+        .classList.contains("obstacle");
+      var p1 = document
+        .getElementById(positionx + py)
+        .classList.contains("player1");
+      var p2 = document
+        .getElementById(positionx + py)
+        .classList.contains("player2");
+      // A cell is a valid move if it does not contain an obstacle or another player
+      if (!obs && !p1 && !p2) {
+        //loop through the cells highlighting all the valid cell which are valid moves
+        document
+          .getElementById(positionx + py)
+          .classList.add(player.getName() + "moves");
+      } else {
+        break; // whenever you encounter an invalid cell stop highlighting at that point
+      }
+    }
+  }
+}
