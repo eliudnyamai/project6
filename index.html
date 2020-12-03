@@ -8,34 +8,41 @@
   </head>
   <body>
     <div id="start-screen">
-      <h3 id="welcome-heading" >Welcome!!</h3>
-      <div  id="players">
-       <figure>
-        <img class="player-img" src="images/player.png" alt="">
-        <figcaption>Player 1</figcaption>
-       </figure>
-          <h4 >VS</h4>
-          <figure>
-            <img class="player-img" src="images/soldier.png" alt="">
-            <figcaption>Player 2</figcaption>
-          </figure>
-         
-
+      <h3 id="welcome-heading">Welcome!!</h3>
+      <div id="players">
+        <figure>
+          <img class="player-img" src="images/player.png" alt="" />
+          <figcaption>Player 1</figcaption>
+        </figure>
+        <h4>VS</h4>
+        <figure>
+          <img class="player-img" src="images/soldier.png" alt="" />
+          <figcaption>Player 2</figcaption>
+        </figure>
       </div>
       <button class="start-button" id="start">Start Game</button>
       <button class="start-button" id="instructions">Read Instructions</button>
     </div>
     <div id="end-screen">
-      <h3 id="end-message" >Game over</h3>
-      <div id="winner">
-        
-      </div>
-      <button class="start-button" id="start">New Game</button>
+      <h3 id="end-message">Game over</h3>
+      <div id="winner"></div>
+      <button class="start-button" id="restart">Restart Game</button>
       <button class="start-button" id="end">End game</button>
     </div>
+    <div id="names-screen">
+      <h3>Please Provide Names</h3>
+      <form id="names-form" onsubmit="event.preventDefault();">
+        <input type="button" id="dismiss-form" value="X &nbsp;" />
+        <label for="">Player 1 name</label> <br />
+        <input type="text" id="player1name" class="form-input" required/> <br />
+        <label for="">Player 2 name</label><br />
+        <input type="text" id="player2name" class="form-input" required /> <br />
+        <button class="start-button" type="submit" id="change-name">ok</button>
+      </form>
+    </div>
     <div id="instructions-modal">
-      <div style="margin: auto; width: 70%;">
-        <h2 class="centered" >How To Play</h2>
+      <div>
+        <h2 class="centered">How To Play</h2>
         <h3 class="centered">Movement</h3>
         <ul>
           <li>Movement takes place in turns.</li>
@@ -44,12 +51,12 @@
             vertically) before ending their turn.
           </li>
           <li>
-            If player passes over a box containing a weapon, he leave his current
-            weapon on site and replace it with the new one.
+            If player passes over a box containing a weapon, he leave his
+            current weapon on site and replace it with the new one.
           </li>
           <li>
-            If players cross over adjacent squares (horizontally or vertically), a
-            battle begins.
+            If players cross over adjacent squares (horizontally or vertically),
+            a battle begins.
           </li>
         </ul>
         <h3 class="centered">Fight</h3>
@@ -62,23 +69,22 @@
             damage than normal.
           </li>
           <li>
-            As soon as life points of a player (initially 100) falls to 0, game is
-            over.
+            As soon as life points of a player (initially 100) falls to 0, game
+            is over.
           </li>
         </ul>
         <div class="centered">
           <button class="start-button" id="close-instructions">Close</button>
         </div>
       </div>
-      
     </div>
     <div id="main">
       <div class="centered" id="player1info">
         <img class="player-img" src="images/player.png" alt="" />
-        <h3 class="centered">Player 1</h3>
-        <p id="turn1"></p>
-        <p id="weapon1"></p>
-        <p id="life1"></p>
+        <p id="playerAname" class="centered">Player 1</p>
+        <p id="player1turn"></p>
+        <p id="player1weapon"></p>
+        <p id="player1life"></p>
         <div id="player1fightbuttons">
           <button class="fight-button-attack fight-button">Attack</button>
           <button class="fight-button-defend fight-button">Defend</button>
@@ -88,10 +94,10 @@
       <div id="board"></div>
       <div class="centered" id="player2info">
         <img class="player-img" src="images/soldier.png" alt="" />
-        <h3>Player 2</h3>
-        <p id="turn2"></p>
-        <p id="weapon2"></p>
-        <p id="life2"></p>
+        <p id="playerBname">Player 2</p>
+        <p id="player2turn"></p>
+        <p id="player2weapon"></p>
+        <p id="player2life"></p>
         <div id="player2fightbuttons">
           <button class="fight-button-attack fight-button">Attack</button>
           <button class="fight-button-defend fight-button">Defend</button>
@@ -99,15 +105,16 @@
         <div id="player2progress"></div>
       </div>
       <div id="fight-message">Fight!</div>
-    
     </div>
-    <div id="end-game" class="centered">Thank you for playing my game. Have a good day!!! <br>
+    <div id="end-game" class="centered">
+      Thank you for playing my game. Have a good day!!! <br />
     </div>
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
       crossorigin="anonymous"
     ></script>
+    <script src="js/main.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/spot.js"></script>
     <script src="js/board.js"></script>
@@ -116,6 +123,5 @@
     <script src="js/obstacle.js"></script>
     <script src="js/empty.js"></script>
     <script src="js/game.js"></script>
-    <script src="js/main.js"></script>
   </body>
 </html>

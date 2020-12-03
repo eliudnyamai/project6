@@ -2,35 +2,136 @@ class Game {
   constructor() {
     this.board = new Board();
     this.obstacle = new Obstacle("obstacle");
-    this.mwiko = new Weapon(10, 1, 1, "mwiko");
-    this.spoon = new Weapon(10, 1, 1, "spoon");
-    this.gun = new Weapon(20, 1, 1, "gun");
-    this.ak47 = new Weapon(30, 1, 1, "ak47");
-    this.machinegun = new Weapon(40, 1, 1, "machinegun");
+    this.mwiko = new Weapon(10,"mwiko");
+    this.spoon = new Weapon(10,"spoon");
+    this.gun = new Weapon(20,"gun");
+    this.ak47 = new Weapon(30, "ak47");
+    this.machinegun = new Weapon(50, "machinegun");
     this.playerA = new Player(0, 0, 1, 100, "spoon", "player1", 0);
     this.playerB = new Player(0, 0, 1, 100, "mwiko", "player2", 0);
   }
+  placePlayer() {
+    position = randomPosition();
+    x = position[0];
+    y = position[1];
+    if (x + 1 >= 0 && x + 1 < 10) {
+      var right =
+        document
+          .getElementById((x + 1).toString() + y.toString())
+          .classList.contains("player1") ||
+        document
+          .getElementById((x + 1).toString() + y.toString())
+          .classList.contains("player2");
+    } else {
+      var right = false;
+    }
+    if (x - 1 >= 0 && x - 1 < 10) {
+      var left =
+        document
+          .getElementById((x - 1).toString() + y.toString())
+          .classList.contains("player1") ||
+        document
+          .getElementById((x - 1).toString() + y.toString())
+          .classList.contains("player2");
+    } else {
+      var left = false;
+    }
+    if (y + 1 >= 0 && y + 1 < 10) {
+      var top =
+        document
+          .getElementById(x.toString() + (y + 1).toString())
+          .classList.contains("player1") ||
+        document
+          .getElementById(x.toString() + (y + 1).toString())
+          .classList.contains("player2");
+    } else {
+      var top = false;
+    }
+    if (y - 1 >= 0 && y - 1 < 10) {
+      var bottom =
+        document
+          .getElementById(x.toString() + (y - 1).toString())
+          .classList.contains("player1") ||
+        document
+          .getElementById(x.toString() + (y - 1).toString())
+          .classList.contains("player2");
+    } else {
+      var bottom = false;
+    }
+    while (right || left || top || bottom) {
+      position = randomPosition();
+      x = position[0];
+      y = position[1];
+      if (x + 1 >= 0 && x + 1 < 10) {
+        var right =
+          document
+            .getElementById((x + 1).toString() + y.toString())
+            .classList.contains("player1") ||
+          document
+            .getElementById((x + 1).toString() + y.toString())
+            .classList.contains("player2");
+      } else {
+        var right = false;
+      }
+      if (x - 1 >= 0 && x - 1 < 10) {
+        var left =
+          document
+            .getElementById((x - 1).toString() + y.toString())
+            .classList.contains("player1") ||
+          document
+            .getElementById((x - 1).toString() + y.toString())
+            .classList.contains("player2");
+      } else {
+        var left = false;
+      }
+      if (y + 1 >= 0 && y + 1 < 10) {
+        var top =
+          document
+            .getElementById(x.toString() + (y + 1).toString())
+            .classList.contains("player1") ||
+          document
+            .getElementById(x.toString() + (y + 1).toString())
+            .classList.contains("player2");
+      } else {
+        var top = false;
+      }
+      if (y - 1 >= 0 && y - 1 < 10) {
+        var bottom =
+          document
+            .getElementById(x.toString() + (y - 1).toString())
+            .classList.contains("player1") ||
+          document
+            .getElementById(x.toString() + (y - 1).toString())
+            .classList.contains("player2");
+      } else {
+        var bottom = false;
+      }
+    }
+    return position;
+  }
   initializeGame() {
     this.board.resetBoard();
+    for (let index = 0; index < 15; index++) {
+      position = randomPosition();
+      this.board.placeItem(position[0], position[1], this.obstacle);
+    }
     position = randomPosition();
     this.board.placeItem(position[0], position[1], this.gun);
     position = randomPosition();
     this.board.placeItem(position[0], position[1], this.ak47);
     position = randomPosition();
     this.board.placeItem(position[0], position[1], this.machinegun);
-    position = randomPosition();
+    position = this.placePlayer();
     this.board.placeItem(position[0], position[1], this.playerA);
     this.playerA.setX(position[0]);
     this.playerA.setY(position[1]);
-    position = randomPosition();
+    position = this.placePlayer();
     this.board.placeItem(position[0], position[1], this.playerB);
     this.playerB.setX(position[0]);
-    this.playerB.setY(position[1]);
-    for (let index = 0; index < 15; index++) {
-      position = randomPosition();
-      this.board.placeItem(position[0], position[1], this.obstacle);
-    }
+    this.playerB.setY(position[1]); 
+    document.getElementById('names-screen').style.display="block";
   }
+  
   disableMovement() {
     //makes all cells unclickable and unhighlights the highlighted
     $(".cell").prop("disabled", true);
@@ -88,19 +189,19 @@ class Game {
   }
   displayTurns() {
     if (this.playerA.getTurn() == 1) {
-      document.getElementById("turn1").innerHTML = "Player 1 turn";
-      document.getElementById("turn2").innerHTML = "";
-      $("."+this.playerA.getName()).prop("disabled", true);
+      document.getElementById("player1turn").innerHTML = "Your Turn";
+      document.getElementById("player2turn").innerHTML = "Wait";
+      $("." + this.playerA.getName()).prop("disabled", true);
     } else {
-      document.getElementById("turn2").innerHTML = "Player 2 turn";
-      document.getElementById("turn1").innerHTML = "";
-      $("."+this.playerB.getName()).prop("disabled", true);//players cant click themselves so disable the cell they are in
+      document.getElementById("player2turn").innerHTML = "Your Turn";
+      document.getElementById("player1turn").innerHTML = "Wait";
+      $("." + this.playerB.getName()).prop("disabled", true); //players cant click themselves so disable the cell they are in
     }
   }
   displayLife() {
-    document.getElementById("life2").innerHTML =
+    document.getElementById("player2life").innerHTML =
       "Life: " + this.playerB.getLife();
-    document.getElementById("life1").innerHTML =
+    document.getElementById("player1life").innerHTML =
       "Life: " + this.playerA.getLife();
   }
   WeaponDamage(name) {
@@ -122,14 +223,14 @@ class Game {
   }
   displayWeapon() {
     // shows each players currently owned weapon
-    document.getElementById("weapon2").innerHTML = //for player 2
+    document.getElementById("player2weapon").innerHTML = //for player 2
       "Weapon: " +
       this.playerB.getWeapon() +
       "<br><img class='weapon'  src='./images/" +
       this.playerB.getWeapon() +
       ".png'><br>Weapon Damage: " +
       this.WeaponDamage(this.playerB.getWeapon());
-    document.getElementById("weapon1").innerHTML = //for player 1
+    document.getElementById("player1weapon").innerHTML = //for player 1
       "Weapon: " +
       this.playerA.getWeapon() +
       "<br><img class='weapon' src='./images/" +
@@ -137,7 +238,6 @@ class Game {
       ".png'><br>Weapon Damage: " +
       this.WeaponDamage(this.playerA.getWeapon());
   }
-
   highlightMoves() {
     //highlighs the current valid moves according to player's turn
     //py means position Y
@@ -178,7 +278,7 @@ class Game {
           player.getName() + "moves"
         );
         //After a player moves out of a cell enable that cell for clicking
-        $("#"+previousX+previousY).prop("disabled", false);
+        $("#" + previousX + previousY).prop("disabled", false);
         this.highlightMoves();
         this.displayTurns();
         this.displayWeapon();
@@ -192,7 +292,7 @@ class Game {
       var previousX = player.getX();
       var previousY = player.getY();
       var nonActivePlayer = this.playerB;
-  
+
       this.move(x, y, previousX, previousY, player, nonActivePlayer);
     } else if (this.playerB.getTurn() == 1) {
       var player = this.playerB;
@@ -214,9 +314,9 @@ class Game {
         if (nonActivePlayer.getLife() <= 0) {
           //someone has probably won
           if (player.getName() == "player1") {
-            playerAwins();
+            player1wins();
           } else {
-            playerBwins();
+            player2wins();
           }
         } else {
           if (player.getName() == "player1") {
@@ -236,9 +336,9 @@ class Game {
         player.setDefence(0);
         if (nonActivePlayer.getLife() <= 0) {
           if (player.getName() == "player1") {
-            playerAwins();
+            player1wins();
           } else {
-            playerBwins();
+            player2wins();
           }
         } else {
           if (player.getName() == "player1") {

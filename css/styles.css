@@ -29,6 +29,48 @@ body {
   padding: 3%;
   border-radius:1% ;
 }
+#names-screen{
+  display: none;
+  position: absolute;
+  top: 30%;
+  left: 24%;
+  background-color: rgb(186, 243, 186);
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  padding: 2%;
+  border-radius:1% ;
+}
+.form-input{
+  padding: 1%;
+  width: 45%;
+  border: 2px solid green;
+  font-size: 18px;
+}
+#dismiss-form{
+  position: absolute;
+  color: red;
+  background: transparent;
+ top: 2px;
+ right: 3%;
+ padding: 1%;
+ font-size: 20px;
+ outline:  rgb(186, 243, 186);
+ border: rgb(186, 243, 186);
+}
+#dismiss-form:hover{
+  color: rgb(221, 111, 111);
+}
+#change-name{
+  background-color: rgb(46, 122, 46);
+  border: 2px solid white;
+  color: white;
+  width: 20%; 
+  margin-top: 5px;
+}
+#change-name:hover{
+ color: red;
+}
 .start-button{
   padding: 1%;
   width: 30%;
@@ -44,6 +86,14 @@ body {
   border: 2px solid white;
   color: white;
 }
+#restart{
+  background-color: rgb(46, 122, 46);
+  border: 2px solid white;
+  color: white;
+}
+#restart:hover{
+  color:red;
+}
 #start:hover{
   color:red;
 }
@@ -57,6 +107,10 @@ body {
   margin: auto;
   padding: 2%;
   border-radius:1% ;
+}
+#instructions-modal-inner{
+  margin: auto; 
+  width: 70%;
 }
 #close-instructions{
   background-color: rgb(201, 32, 32);
@@ -176,7 +230,7 @@ body {
   background-size: 100% 100%;
 }
 .obstacle {
-  background-image: url("../images/obstacle.png");
+  background-image: url("../images/obs1.jpg");
   background-size: 100% 100%;
 }
 .player2 {

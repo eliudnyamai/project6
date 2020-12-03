@@ -160,6 +160,7 @@ function exists(arr, search) {
   }
   return false;
 }
+
 function randomPosition() {
   x = Math.floor(Math.random() * 10);
   y = Math.floor(Math.random() * 10);
@@ -170,26 +171,25 @@ function randomPosition() {
   position = new Array(x, y);
   return position;
 }
-
-function playerAwins() {
+function player1wins() {
   document.getElementById("player1fightbuttons").style.display =
   "none";
 document.getElementById("player2fightbuttons").style.display =
   "none";
 document.getElementById("end-screen").style.display = "block";
 document.getElementById("end-message").innerText =
-  "Game over-player 1 wins";
+  "Game-over "+document.getElementById('playerAname').innerHTML+" wins";
 document.getElementById("winner").innerHTML =
   "<img class='player-img' src='./images/player.png'>";
 }
-function playerBwins() {
+function player2wins() {
   document.getElementById("player1fightbuttons").style.display =
           "none";
   document.getElementById("player2fightbuttons").style.display =
           "none";
   document.getElementById("end-screen").style.display = "block";
   document.getElementById("end-message").innerText =
-          "Game-over player 2 wins";
+          "Game-over "+document.getElementById('playerBname').innerHTML+" wins";
   document.getElementById("winner").innerHTML =
         "<img class='player-img' src='./images/soldier.png'>";
 }
@@ -257,4 +257,9 @@ function xAxisMoves(x,py,increment,player) {
       }
     }
   }
+}
+function changePlayerNames(player1name,player2name){
+  document.getElementById('playerAname').innerHTML=player1name
+  document.getElementById('playerBname').innerHTML=player2name
+  document.getElementById("names-screen").style.display="none"
 }

@@ -1,9 +1,7 @@
 class Weapon {
-  constructor(damage, availability, ammunition, name) {
+  constructor(damage, name) {
     this.name = name;
     this.damage = damage;
-    this.availability = availability;
-    this.ammunition = ammunition;
   }
   getName() {
     return this.name;
