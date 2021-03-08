@@ -259,3 +259,17 @@ body {
 #player1fightbuttons{
   display: none;
 }
+@media screen and (max-width: 1300px) {
+ #start-screen{
+   display: none;
+ }
+  #incompatible-screen{
+   display: block;
+   text-align: center;
+ }
+}
+@media screen and (min-width:1300px){
+   #incompatible-screen{
+   display: none;
+ }
+}
